@@ -1,0 +1,22 @@
+%% -*- mode: erlang;erlang-indent-level: 4;indent-tabs-mode: nil -*-
+{application, wahoo_webhook,
+[{description, "接收Wahoo锻炼数据并存入数据库"},
+  {vsn, {file, "../VERSION"}},
+  {registered, []},
+  {mod, {wahoo_webhook_app, []}},
+  {included_applications, []},
+  {applications,
+   [kernel,
+    stdlib,
+    epgsql,
+    poolboy,
+    lager
+   ]},
+  {env,[]},
+  {modules, []},
+  {maintainers, [wangcw]},
+  {licenses, ["MIT"]},
+  {links,[{"github",
+           "https://github.com/redgreat/wahoo_webhook.git"}]}
+ ]}.
+
