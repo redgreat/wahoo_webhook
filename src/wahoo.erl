@@ -6,21 +6,10 @@
 %%% @end
 %%% Created : 2024-07-29 下午2:22
 %%%-------------------------------------------------------------------
--module(wahoo_webhook).
+-module(wahoo).
 -author("wangcw").
 
 -behaviour(application).
-
--define(ConnOpts, [
-  {host, "adb.ap-seoul-1.oraclecloud.com"},
-  {port, 1521},
-  {user, "eadm"},
-  {password, "Mm198904250512"},
-  {sid, "g4f0c472d565d4c_eadm_high.adb.oraclecloud.com"},
-  {app_name, "edbc"}
-]).
-
-
 
 %% Application callbacks
 -export([startdb/0, mountdb/0, stopdb/0]).

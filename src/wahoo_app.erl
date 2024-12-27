@@ -8,7 +8,7 @@
 %% @end
 %%% Created : 2024-01-23 17:27:13
 %%%-------------------------------------------------------------------
--module(wahoo_webhook_app).
+-module(wahoo_app).
 -author("wangcw").
 
 %%%===================================================================
@@ -38,19 +38,7 @@
 %%--------------------------------------------------------------------
 start(_StartType, _StartArgs) ->
     application:start(lager),
-    wahoo_webhook_sup:start_link().
-
-start() ->
-    WebhookToken = "3006dd15-2514-4b21-8269-24fa90523786",
-    Dispatch = cowboy_router:compile([
-        {'_', [
-            {"/webhook/" ++ WebhookToken, webhook_handler, []}
-        ]}
-    ]),
-    {ok, _} = cowboy:start_clear(my_http_listener, 100, [{port, 8080}], #{
-        env => #{dispatch => Dispatch}
-    }),
-    io:format("Cowboy started on port 8080~n").
+    wahoo_sup:start_link().
 
 %%--------------------------------------------------------------------
 %% @private

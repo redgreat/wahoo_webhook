@@ -8,7 +8,7 @@
 %%% @end
 %%% Created : 2024-12-24 19:39
 %%%-------------------------------------------------------------------
--module(webhook_handler).
+-module(wahoo_handler).
 -author("wangcw").
 -behaviour(cowboy_http_handler).
 
@@ -46,8 +46,6 @@ handle(Req, State) ->
 
 terminate(_Reason, _Req, _State) ->
   ok.
-
-
 
 %%====================================================================
 %% 内部函数
