@@ -1,5 +1,5 @@
--sname eadm@localhost
--setcookie eadm_cookie
+-sname wahoo@localhost
+-setcookie wahoo_cookie
 -smp auto
 -megabytes 64
 -env ERL_MAX_PORTS 64

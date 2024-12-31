@@ -3,7 +3,7 @@
 %%% @copyright (C) 2024, REDGREAT
 %% @doc
 %%
-%% eadm top level supervisor.
+%% wahoo top level supervisor.
 %%
 %% @end
 %%% Created : 2024-01-23 17:30:14
@@ -47,7 +47,7 @@ start_link() ->
 init([]) ->
     %% Pg Pool Start.
     Pools = application:get_env(epgsql, pools, []),
-    %% lager:info("数据库连接参数：~p~n", [Pools]),
+    lager:info("PG数据库连接参数：~p~n", [Pools]),
     PoolSpec = lists:map(fun ({PoolName, SizeArgs, WorkerArgs}) ->
         PoolArgs = [{name, {local, PoolName}},
             {worker_module, eadm_pgpool_worker}] ++ SizeArgs,
@@ -56,18 +56,21 @@ init([]) ->
     {ok, { {one_for_one, 10, 10}, PoolSpec} },
 
     %% Oracle Connect Start.
-    ConnOpts = application:get_env(eorcl, []),
-    {ok, OraConnRef} = jamdb_oracle:start([{role, 1},{prelim, 1}]++ConnOpts),
+    OrclCon = application:get_env(eorcl, []),
+    lager:info("Oracle数据库连接参数：~p~n", [OrclCon]),
+    {ok, OraConnRef} = jamdb_oracle:start([{role, 1},{prelim, 1}]++OrclCon),
 
     %% CowBoy Start.
-    WebhookToken = "3006dd15-2514-4b21-8269-24fa90523786",
+    WebhookToken = application:get_env(wahoo,hook_token, ""),
+    HttpPort = application:get_env(wahoo,http_port, 8080),
+    lager:info("Http参数：~p~p~n", [WebhookToken, HttpPort]),
     Dispatch = cowboy_router:compile([
         {'_', [
             {"/webhook/" ++ WebhookToken, webhook_handler, []}
             ]
         }
     ]),
-    {ok, _} = cowboy:start_clear(my_http_listener, 100, [{port, 8080}], #{
+    {ok, _} = cowboy:start_clear(my_http_listener, 100, [{port, HttpPort}], #{
         env => #{dispatch => Dispatch}
     }),
     io:format("Cowboy started on port 8080~n").

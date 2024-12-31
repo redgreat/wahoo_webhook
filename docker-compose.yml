@@ -1,34 +1,18 @@
 version: '3.8'
 services:
-    postgres:
-        image: 'redgreat/postgres:latest'
-        container_name: pg
-        hostname: postgres
-        restart: unless-stopped
-        environment:
-            POSTGRES_USER: user_eadm
-            POSTGRES_DB: eadm
-            POSTGRES_PASSWORD: iyS62bvt
-            POSTGRES_HOST_AUTH_METHOD: trust
-        volumes:
-            - pgdata:/var/lib/postgresql/data
-        ports:
-            - '5432:5432'
     eadm:
-        image: 'redgreat/eadm:latest'
-        container_name: eadm
+        image: 'redgreat/wahoo:latest'
+        container_name: wahoo
         restart: unless-stopped
         ports:
             - '8080:8090'
         volumes:
-            - ./docker/db.config:/opt/eadm/config/db.config
-            - ./docker/sys.config.src:/opt/eadm/config/sys.config.src
-            - ./docker/vm.args.src:/opt/eadm/config/vm.args.src
-            - ./logs/:/opt/eadm/log/:rw
+            - ./docker/db.config:/opt/wahoo/config/db.config
+            - ./docker/sys.config.src.src:/opt/wahoo/config/sys.config.src.src
+            - ./docker/vm.args.src:/opt/wahoo/config/vm.args.src
+            - ./logs/:/opt/wahoo/log/:rw
         environment:
             DISABLE_IPV6: 'true'
-        depends_on:
-            - postgres
         deploy:
             resources:
                 limits:
@@ -37,22 +21,3 @@ services:
                     memory: 500M
         mem_swappiness: 0
         oom_kill_disable: true
-    npm:
-        image: 'redgreat/nginxpm:latest'
-        container_name: npm
-        restart: unless-stopped
-
-        ports:
-            - '80:8080'
-            - '8181:8181'
-            - '443:4443'
-        volumes:
-            - ./npmdata:/config:rw
-        depends_on:
-            - eadm
-        environment:
-            DISABLE_IPV6: 'true'
-            TZ: 'Asia/Shanghai'
-            LANG: 'zh_CN.UTF-8'
-volumes:
-    pgdata:

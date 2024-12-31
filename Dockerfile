@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM erlang:26.2.4-alpine AS builder
+FROM --platform=$BUILDPLATFORM erlang:27.1.2-alpine AS builder
 
 WORKDIR /eadmbuild
 
@@ -21,21 +21,21 @@ WORKDIR /opt/eadm
 RUN apk add --no-cache ncurses-libs libgcc libstdc++ dumb-init
 RUN apk add --no-cache --repository https://dl-cdn.alpinelinux.org/alpine/edge/testing/ gosu
 
-COPY --from=builder /eadmbuild/_build/prod/rel/eadm /opt/eadm/
-COPY --from=builder /eadmbuild/docker/docker-entrypoint.sh /opt/eadm/docker/docker-entrypoint.sh
+COPY --from=builder /wahoobuild/_build/prod/rel/wahoo /opt/wahoo/
+COPY --from=builder /wahoobuild/docker/docker-entrypoint.sh /opt/wahoo/docker/docker-entrypoint.sh
 
-RUN chmod +x /opt/eadm/docker/docker-entrypoint.sh
+RUN chmod +x /opt/wahoo/docker/docker-entrypoint.sh
 
-VOLUME /opt/eadm
+VOLUME /opt/wahoo
 
 EXPOSE 8090
 
 LABEL \
-      org.label-schema.name="eadm" \
+      org.label-schema.name="wahoo" \
       org.label-schema.description="erlang书写自用管理，提供日常数据统计查询。" \
       org.label-schema.version="${DOCKER_IMAGE_VERSION:-unknown}" \
-      org.label-schema.vcs-url="https://github.com/redgreat/eadm" \
+      org.label-schema.vcs-url="https://github.com/redgreat/wahoo_webhook" \
       org.label-schema.maintainer="wangcw <rubygreat@msn.com>" \
       org.label-schema.schema-version="1.0"
 
-ENTRYPOINT ["/usr/bin/dumb-init", "-c", "--", "/opt/eadm/docker/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/dumb-init", "-c", "--", "/opt/wahoo/docker/docker-entrypoint.sh"]

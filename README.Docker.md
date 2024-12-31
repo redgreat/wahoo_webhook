@@ -1,16 +1,8 @@
-# eadm 个人后台管理系统
+# wahoo健康数据获取
 
 项目介绍
 ---
-
-使用erlang做后台，web框架为基于cowboy的nova，bootstrap5+jQuery做前台，TiDB做后台数据库。
-初学项目。
-
- - erlang: 26.2.4
- - rebar3: 3.22.1
- - [nova](https://github.com/novaframework/nova): 0.9.22
- - bootstrap5: 5.3.0
- - jQuery: 3.6.0
+使用wahoo Cloud API 中提供的 webhook功能，设备同步wahoo cloud的时候调用此API，通过解析回调信息中的fit文件地址，下载fit健康文件，解析后将所需数据存入postgres等数据库。
 
 ---
 
@@ -23,9 +15,9 @@ docker run -itd \
 -oom-kill-disable \
 --cpu-shares=0 \
 --restart=always \
--v ./config/prod_db.config:/opt/eadm/releases/0.1.0/prod_db.config \
--v ./config/prod_sys.config.src:/opt/eadm/releases/0.1.0/prod_sys.config.src \
--v ./config/vm.args.src:/opt/eadm/releases/0.1.0/vm.args.src
+-v ./config/prod_db.config:/opt/wahoo/releases/0.1.0/prod_db.config \
+-v ./config/prod_sys.config.src:/opt/wahoo/releases/0.1.0/prod_sys.config.src \
+-v ./config/vm.args.src:/opt/wahoo/releases/0.1.0/vm.args.src
 -p 8080:8090 \
---name eadm redgreat/eadm
+--name wahoo redgreat/wahoo
 ```

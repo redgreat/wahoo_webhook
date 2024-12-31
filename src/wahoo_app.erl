@@ -3,10 +3,10 @@
 %%% @copyright (C) 2024, REDGREAT
 %% @doc
 %%
-%% eadm public API
+%% APP
 %%
 %% @end
-%%% Created : 2024-01-23 17:27:13
+%%% Created : 2024-12-31 08:51:38
 %%%-------------------------------------------------------------------
 -module(wahoo_app).
 -author("wangcw").
